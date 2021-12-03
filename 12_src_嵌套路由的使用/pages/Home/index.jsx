@@ -12,7 +12,7 @@ export default class Home extends Component {
 			<div>
 				<h3>我是Home的内容</h3>
 				<div>
-	                <ul className="nav nav-tabs">
+	                <ul class="nav nav-tabs">
 	                  <li>
 	                    <MyNavLink to="/home/news">News</MyNavLink>
 	                  </li>

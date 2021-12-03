@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Route, Switch, Redirect} from 'react-router-dom'
+import {Route, Switch} from 'react-router-dom'
 import Home from './pages/Home'	//Home是路由组件
 import About from './pages/About' //About是路由组件
 
@@ -24,7 +24,7 @@ export default class App extends Component {
 
 							{/*在react中靠路由链接实现切换组件--编写路由链接*/}
 							<MyNavLink to="/home">Home</MyNavLink>
-							<MyNavLink to="/about">About</MyNavLink>
+							<MyNavLink to="/about/a/b">About</MyNavLink>
 						</div>
 					</div>
 					<div className="col-xs-6">
@@ -32,9 +32,8 @@ export default class App extends Component {
 							<div className="panel-body">
 								{/*注册路由*/}
 								<Switch>
-									<Route path="/home" component={Home} />
-									<Route path="/about" component={About} />
-									<Redirect to="/about"/>
+									<Route exact path="/home" component={Home} />
+									<Route exact path="/about" component={About} />
 								</Switch>
 							</div>
 						</div>

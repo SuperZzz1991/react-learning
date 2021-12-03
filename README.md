@@ -66,4 +66,7 @@
 		接受参数：this.props.location.search
 		tips：获取到的search是urlencoded编码字符串，需要借助querystring解析
 	3.state参数
-		
+		路由链接（携带参数）：<Link to={{pathname:'/demo/test', state:{id:18}}}}>详情</Link>
+		注册路由（无需声明接受，正常注册即可）：<Route path="/demo/test component={Test} />
+		接受参数：this.props.location.state
+		tips：刷新也可以保留住参数

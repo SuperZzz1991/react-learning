@@ -1,4 +1,4 @@
-import React from 'react'
+ import React from 'react'
 import {Link, Route} from 'react-router-dom'
 
 import Detail from './Detail'
@@ -29,7 +29,7 @@ export default class Message extends React.Component {
 									{/*<Link to={`/home/message/detail?id=${msg.id}&title=${msg.title}`}>{msg.title}</Link>*/}
 
 									{/*向路由组件传递state参数*/}
-									<Link to={{pathname:'/home/message/detail', state:{id:msg.id, title:msg.title}}}>{msg.title}</Link>
+									<Link replace to={{pathname:'/home/message/detail', state:{id:msg.id, title:msg.title}}}>{msg.title}</Link>
 								</li>
 							)
 						})

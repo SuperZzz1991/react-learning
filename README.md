@@ -24,7 +24,7 @@
 
 1. 创建代理配置文件**(在src下创建配置文件)**
    ```
-   	src/setupProxy.js
+   src/setupProxy.js
    ```
 2. 编写setupProxy.js配置具体代理规则
    ```js
@@ -134,8 +134,10 @@
 			* params: {}
 			* path: "/about"
 			* url: "/about"
-
-			
+4. withRouter：
+	* 可以加工一般组件，让一般组件具备酷游组件所持有的API
+	* withRouterd的返回值是一个新组件
+		
 ## NavLink与封装NavLink
 
 1. NavLink可以实现路由链接的高亮，通过activeClassName指定样式名
@@ -178,16 +180,132 @@
 ## 向路由组件传递参数
 
 1. params参数
-	* 路由链接（携带参数）：`<Link to="/demo/test/18">详情</Link>`
+	* 路由链接（携带参数）：`<Link to="/demo/test/18">detail</Link>`
 	* 注册路由（声明接受）：`<Route path="/demo/test/:id component={Test} />`
 	* 接受参数：this.props.match.params
 2. search参数
-	* 路由链接（携带参数）：`<Link to="/demo/test?id=18">详情</Link>`
+	* 路由链接（携带参数）：`<Link to="/demo/test?id=18">detail</Link>`
 	* 注册路由（无需声明接受，正常注册即可）：`<Route path="/demo/test component={Test} />`
 	* 接受参数：this.props.location.search
 	* *tips：获取到的search是urlencoded编码字符串，需要借助querystring解析*
 3. state参数
-	* 路由链接（携带参数）：`<Link to={{pathname:'/demo/test', state:{id:18}}}}>详情</Link>`
+	* 路由链接（携带参数）：`<Link to={{pathname:'/demo/test', state:{id:18}}}}>detail</Link>`
 	* 注册路由（无需声明接受，正常注册即可）：`<Route path="/demo/test component={Test} />`
 	* 接受参数：this.props.location.state
 	* *tips：刷新也可以保留住参数*
+
+## 编程式路由导航
+
+借助this.props.history对象上的API对象操作路由的跳转、前进、后退
+```js
+this.props.history.push()
+this.props.history.replace()
+this.props.history.goBack()
+this.props.history.goForward()
+this.props.history.go(n)
+```
+
+## BrowserRouter与HashRouter的区别
+
+1. 底层原理不一样
+	* BrowserRouter使用的是H5的history API，不兼容IE9及以下版本
+	* HashRouter使用的是URL的哈希值
+2. path表现形式不一样
+	* BrowserRouter的路径中没有#，例如：localhost:3000/demo/test
+	* HashRouter的路径包含#，例如：localhost:3000/#/demo/test
+3. 刷新后对路由state参数的影响不一样
+	* BrowserRouter没有任何影响，因为state保存在history对象中
+	* **HashRouter刷新后会导致路由state参数的丢失**
+
+*tips：HashRouter可以用于解决一些路径错误相关的问题*
+
+## React-UI组件库
+
+* material-ui
+* ***ant-design***
+* element-ui
+* vant-ui
+
+#### ant-design(antd v4)
+
+1. 安装
+```
+yarn add antd
+```
+2. 引入
+```js
+import {Button} from 'antd'
+import 'antd/dist/antd.css'
+```
+3. 按需引入/自定义主题
+	* 安装依赖
+	```
+	yarn add @craco/craco
+	yarn add craco-less
+	```
+	* 修改package.json的scripts属性
+	```json
+	"scripts": {
+	-   "start": "react-scripts start",
+	-   "build": "react-scripts build",
+	-   "test": "react-scripts test",
+	+   "start": "craco start",
+	+   "build": "craco build",
+	+   "test": "craco test",
+	}
+	```
+	* 创建craco.config.js
+	```js
+	const CracoLessPlugin = require('craco-less')
+	module.exports = {
+		babel: {
+			plugin: [
+				'import', {
+					libraryName: 'antd',
+					libraryDirectory: 'es',
+					style: true
+				}
+			]
+		},
+		plugins: [{
+			plugin: CracoLessPlugin,
+			options: {
+				lessLoaderOptions: {
+					lessOptions: {
+						modifyVars: {
+							'@primary-color': '#1DA57A'
+						},
+						javascriptEnabled: true
+					}
+				}
+			}
+		}]
+	}
+	```
+	* 创建index.less并引入antd.less样式
+	```js
+	@import '~antd/dist/antd.less'; 
+	```
+	* 在src/index.js中全局引入index.less样式
+	```js
+	import './index.less'
+	```
+	* antd样式变量 [自定义主题](https://ant.design/docs/react/customize-theme-cn)
+	```
+	@primary-color: #1890ff; // 全局主色
+	@link-color: #1890ff; // 链接色
+	@success-color: #52c41a; // 成功色
+	@warning-color: #faad14; // 警告色
+	@error-color: #f5222d; // 错误色
+	@font-size-base: 14px; // 主字号
+	@heading-color: rgba(0, 0, 0, 0.85); // 标题色
+	@text-color: rgba(0, 0, 0, 0.65); // 主文本色
+	@text-color-secondary: rgba(0, 0, 0, 0.45); // 次文本色
+	@disabled-color: rgba(0, 0, 0, 0.25); // 失效色
+	@border-radius-base: 2px; // 组件/浮层圆角
+	@border-color-base: #d9d9d9; // 边框色
+	@box-shadow-base: 0 3px 6px -4px rgba(0, 0, 0, 0.12), 
+					  0 6px 16px 0 rgba(0, 0, 0, 0.08),	
+					  0 9px 28px 8px rgba(0, 0, 0, 0.05); // 浮层阴影
+	```
+

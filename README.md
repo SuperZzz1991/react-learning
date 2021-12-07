@@ -338,6 +338,7 @@ import 'antd/dist/antd.css'
 ![redux工作流程](./images/redux原理图.png "redux工作流程")
 
 ##### 三个核心概念
+
 1. action
 	* 动作对象
 	* 2个属性
@@ -363,5 +364,82 @@ import 'antd/dist/antd.css'
 		* dispatch(action)：分发action，触发reducer调用，产生新的state
 		* subscribe(listener)：注册监听，当产生了新的state时，自动调用
 
-<!-- ![react-redux模型图](./images/react-redux模型图.png "react-redux模型图") -->
+##### 使用
 
+1. 安装
+```
+yarn add redux
+```
+2. 案例***(redux-learning/02_src_redux精简版)***
+	1. 去除Count组件自身的state状态
+	2. src下创建
+		* redux/store.js
+		* redux/count_reducer.js
+	3. store.js
+	```js
+	// 引入createStore，专门用于创建redux中最为核心的对象
+	import {createStore} from 'redux'
+	// 引入为Count服务的reducer
+	import countReducer from './count_reducer'
+	// 暴露store
+	export default createStore(countReducer)
+	```
+	4. count_reduce.js
+		* reducer本质是一个函数，接受preState,action。返回加工后的状态
+		* reducer有2个作用：初始化状态、加工状态
+		* reducer被第一次调用时，是store自动出发的，传递的preState是undefined
+	5. 在index.jsx在监测store中状态的改别，一旦发生改变重写渲染<App />
+
+	***tips:redux只负责管理状态，状态改变重写渲染需要主动调用***
+
+3. 案例***(redux-learning/03_src_redux完整版)***
+	1. 新增文件：
+		* count-action.js专门用于创建action对象
+		* constant.js放置type常量类
+4. 案例***(redux-learning/04_src_redux异步action版)***
+	1. 需求：延迟操作由组件转移给action
+	2. 使用场景：对状态进行操作，但是具体数据靠异步任务返回
+	3. 安装redux-thunk
+	```
+	yarn add redux-thunk
+	```
+	4. store.js：
+	```js
+	// 引入createStore，专门用于创建redux中最为核心的对象
+	import {createStore, applyMiddleware} from 'redux'
+	// 引入为Count服务的reducer
+	import countReducer from './count_reducer'
+	// 引入redux-thunk用于支持异步action
+	import thunk from 'redux-thunk'
+	// 暴露store
+	export default createStore(countReducer, applyMiddleware(thunk))
+	```
+	5. count_action.js
+	```js
+	// 异步action：返回function函数对象(借助redux-thunk中间件)
+	export const createIncrementAsyncAction = (data, time) => {
+		// dispatch为store调用时从自身获取
+		return (dispatch) => {
+			// 在函数中编写异步任务
+			setTimeout(() => {
+				// 异步任务结束后分发一个同步的action去执行真正的操作数据
+				dispatch(createIncrementAction(data))
+			}, time);
+		}
+	}
+	```
+
+	***tips:异步action不是必须要写的，完全可以等待异步任务结束后再去分发action*** 
+
+## react-redux
+
+##### 概念及模型图
+
+![react-redux模型图](./images/react-redux模型图.png "react-redux模型图")
+
+##### 使用
+
+1. 安装
+```
+yarn add react-redux
+```

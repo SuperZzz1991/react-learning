@@ -1,3 +1,13 @@
+## react生命周期
+
+##### 旧版本
+
+![react生命周期(旧)](./images/react生命周期(旧).png "react生命周期(旧)")
+
+##### 新版本
+
+![react生命周期(新)](./images/react生命周期(新).png "react生命周期(新)")
+
 ## 使用create-react-app创建react应用
 
 	1. 全局安装：yarn add create-react-app
@@ -308,4 +318,50 @@ import 'antd/dist/antd.css'
 					  0 6px 16px 0 rgba(0, 0, 0, 0.08),	
 					  0 9px 28px 8px rgba(0, 0, 0, 0.05); // 浮层阴影
 	```
+
+## redux
+
+##### 概念
+
+1. 专门用于做状态管理的JS库（不是react的插件库）
+2. 可以用在react,angular,vue中，但基本与react配合使用
+3. 集中式管理react应用中多组件共享状态
+
+##### 使用场景
+
+1. 某个组件的状态，其他组件可以随时获取（共享）
+2. 一个组件需要改变另一个组件的状态（通信）
+3. 原则：能不能就不用，如果不用比较吃力才考虑使用
+
+##### 工作流程
+
+![redux工作流程](./images/redux原理图.png "redux工作流程")
+
+##### 三个核心概念
+1. action
+	* 动作对象
+	* 2个属性
+		* type：标识属性。值为字符串，唯一，必要属性
+		* data：数据属性。值类型任意，可选属性
+	* 示例
+	```js
+	{type: 'ADD_STUDENT', data:{name:'tom', age:18}}
+	```
+2. reducer
+	* 用于初始化状态、加工状态
+	* 加工时，根据旧的state和action，生成新的state的***纯函数***
+3. store
+	* 将state、action、reducer联系在一起
+	* 获取对象
+	```js
+	import {createStore} from 'redux'
+	import reducer from './reducers'
+	const store = createStore(reduce)
+	```
+	* API
+		* getState()：获取state
+		* dispatch(action)：分发action，触发reducer调用，产生新的state
+		* subscribe(listener)：注册监听，当产生了新的state时，自动调用
+
+<!-- ![react-redux模型图](./images/react-redux模型图.png "react-redux模型图") -->
 

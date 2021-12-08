@@ -443,3 +443,35 @@ yarn add redux
 ```
 yarn add react-redux
 ```
+2. 基本案例***(redux-learning/05_src_react-redux基本使用)***
+	* 明确2个概念：
+		1. UI组件：不能使用任何redux的api，只负责页面的呈现、交互等
+		2. 容器组件：负责和redux通信，将结果交给UI组件
+	* 如何创建一个容器组件（react-redux的connet函数）
+		* connect(mapStateToProps, mapDisptachToProps)(UI组件)
+		* mapStateToProps：映射状态，返回值是一个对象
+		* mapDisptachToProps：映射操作状态的方法，返回值是一个对象***（mapDisptachToProps也可以是一个对象）***
+
+	***tips:容器组件中的strore是靠props传递的，而不是在容器组件直接引入*** 
+
+3. 优化案例***(redux-learning/06_src_react-redux优化使用)***
+	* 容器组件和UI组件合并成一个文件
+	* 统一由Provider给容器组件传递store
+	```js
+	import {Provider} from 'react-redux' 
+	<Provider store={store}>
+		<App />
+	</Provider>
+	```
+	* react-redux无需自己监测redux中状态的改变，容器组件可以自动完成监测
+	* mapDisptachToProps简写成一个对象
+	* 与redux交互组件的编写流程：
+		1. 定义一个UI组件---不暴露
+		2. 引入connect生成容器组件，并暴露。写法如下：
+		```jsx
+		connect(
+			state => ({key:value}),
+			{key:action}
+		)(UI组件)
+		```
+		3. 在UI组件中通过this.props读取状态、操作状态

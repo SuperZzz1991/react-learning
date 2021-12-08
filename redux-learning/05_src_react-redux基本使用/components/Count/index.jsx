@@ -4,24 +4,36 @@ export default class Count extends React.Component {
 
 	handleIncrement = () => {
 		const {value} = this.selectedNumber
+		const {increment} = this.props
+		increment(Number(value))
 	}
 
 	handleDecrement = () => {
 		const {value} = this.selectedNumber
+		const {decrement} = this.props
+		decrement(Number(value))
 	}
 
 	handleIncrementOdd = () => {
 		const {value} = this.selectedNumber
+		const {result, increment} = this.props
+		if(result%2 !== 0){
+			increment(Number(value))
+		}
 	}
 
 	handleIncrementAsync = () => {
 		const {value} = this.selectedNumber
+		const {incrementAsync} = this.props
+		incrementAsync(Number(value),1000)
 	}
 
 	render() {
+		// console.log(this.props)
+		const {result} = this.props
 		return (
 			<div>
-				<h1>当前求和为：0</h1>
+				<h1>当前求和为：{result}</h1>
 				<select ref={c => this.selectedNumber = c}>
 					<option value='1'>1</option>
 					<option value='2'>2</option>

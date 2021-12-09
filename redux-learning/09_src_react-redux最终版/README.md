@@ -482,7 +482,7 @@ yarn add react-redux
 4. 数据共享案列***(redux-learning/07_src_react-redux数据共享版)***
 	* 多个组件的Reducer通过combineReducers合并，合并后的总状态是一个对象
 	* store只处理合并之后的对象。组件获取redux共享数据时根据对应的key获取
-5. 开发者工具案例***(redux-learning/08_src_react-redux开发者工具版)***
+5. 开发者工具案例***(redux-learning/07_src_react-redux开发者工具版)***
 	1. 安装
 	```
 	yarn add redux-devtools-extension
@@ -498,22 +498,6 @@ yarn add react-redux
 	const store = createStore(allReducers, composeWithDevTools(applyMiddleware(thunk)))
 	export default store
 	```
-6. 最终版案例***(redux-learning/09_src_react-redux最终版)***
+6. 最终版案例***(redux-learning/08_src_react-redux最终版)***
 	* 所有变量名字要规范，尽量触发对象的简写模式
 	* reducers文件夹中，编写index.js专门用于汇总并暴露所有的reducer
-
-##### 打包及发布
-
-1. 打包
-```
-yarn build
-```
-2.发布(借助serve发布)
-```
-// 安装serve
-yarn global serve
-// 启动
-serve
-// 以build目录启动
-serve build
-```
